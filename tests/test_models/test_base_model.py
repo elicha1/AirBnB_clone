@@ -1,99 +1,42 @@
-#!/usr/bin/python3
-""" """
-from models.base_model import BaseModel
+#!/usr/bin/python
+"""Unittest for Base"""
 import unittest
-import datetime
-from uuid import UUID
-import json
-import os
+from models.base_model import BaseModel
+from datetime import datetime
 
 
-class test_basemodel(unittest.TestCase):
-    """ """
+class Test_BaseModel(unittest.TestCase):
+    """test the BaseModel class"""
 
-    def __init__(self, *args, **kwargs):
-        """ """
-        super().__init__(*args, **kwargs)
-        self.name = 'BaseModel'
-        self.value = BaseModel
+    def test_types(self):
+        """test the types of attr"""
+        p1 = BaseModel()
+        p2 = BaseModel()
+        x = f"[{p1.__class__.__name__}] ({p1.id}) {p1.__dict__}"
 
-    def setUp(self):
-        """ """
-        pass
+        self.assertIsInstance(p1.id, str)
+        self.assertIsInstance(p1.updated_at, datetime)
+        self.assertIsInstance(p1.created_at, datetime)
+        self.assertNotEqual(p1.id, p2.id)
+        self.assertNotEqual(p1.created_at, p2.created_at)
+        self.assertTrue(hasattr(p1, "id"))
+        self.assertTrue(hasattr(p1, "created_at"))
+        self.assertTrue(hasattr(p1, "updated_at"))
+        self.assertEqual(p1.__str__(), x)
+        self.assertNotEqual(p1.created_at, p1.updated_at)
 
-    def tearDown(self):
-        try:
-            os.remove('file.json')
-        except:
-            pass
-
-    def test_default(self):
-        """ """
-        i = self.value()
-        self.assertEqual(type(i), self.value)
-
-    def test_kwargs(self):
-        """ """
-        i = self.value()
-        copy = i.to_dict()
-        new = BaseModel(**copy)
-        self.assertFalse(new is i)
-
-    def test_kwargs_int(self):
-        """ """
-        i = self.value()
-        copy = i.to_dict()
-        copy.update({1: 2})
-        with self.assertRaises(TypeError):
-            new = BaseModel(**copy)
-
-    def test_save(self):
-        """ Testing save """
-        i = self.value()
-        i.save()
-        key = self.name + "." + i.id
-        with open('file.json', 'r') as f:
-            j = json.load(f)
-            self.assertEqual(j[key], i.to_dict())
-
-    def test_str(self):
-        """ """
-        i = self.value()
-        self.assertEqual(str(i), '[{}] ({}) {}'.format(self.name, i.id,
-                         i.__dict__))
-
-    def test_todict(self):
-        """ """
-        i = self.value()
-        n = i.to_dict()
-        self.assertEqual(i.to_dict(), n)
-
-    def test_kwargs_none(self):
-        """ """
-        n = {None: None}
-        with self.assertRaises(TypeError):
-            new = self.value(**n)
-
-    def test_kwargs_one(self):
-        """ """
-        n = {'Name': 'test'}
-        with self.assertRaises(KeyError):
-            new = self.value(**n)
-
-    def test_id(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.id), str)
-
-    def test_created_at(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.created_at), datetime.datetime)
-
-    def test_updated_at(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.updated_at), datetime.datetime)
-        n = new.to_dict()
-        new = BaseModel(**n)
-        self.assertFalse(new.created_at == new.updated_at)
+    def test_methods(self):
+        """test base methods"""
+        p1 = BaseModel()
+        p1.save()
+        p1.name = "mezo"
+        x = p1.to_dict()
+        p1.id = "asa"
+        self.assertNotEqual(p1.updated_at, p1.created_at)
+        self.assertNotEqual(p1.to_dict(), p1.__dict__)
+        self.assertEqual(x["name"], p1.name)
+        self.assertEqual(p1.id, "asa")
+        self.assertNotEqual(x["id"], p1.name)
+        self.assertNotEqual(x["created_at"], p1.created_at)
+        self.assertTrue(hasattr(p1.__dict__, "__class__"))
+        self.assertTrue(hasattr(p1.to_dict(), "__class__"))

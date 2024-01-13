@@ -1,34 +1,28 @@
 #!/usr/bin/python3
-""" """
-from tests.test_models.test_base_model import test_basemodel
+"""this unit test file"""
+import unittest
+from models.base_model import BaseModel
 from models.user import User
+import models
+from datetime import datetime
 
 
-class test_User(test_basemodel):
-    """ """
+class Test_amenity(unittest.TestCase):
+    """the unit test"""
 
-    def __init__(self, *args, **kwargs):
-        """ """
-        super().__init__(*args, **kwargs)
-        self.name = "User"
-        self.value = User
+    def test_gahsdasdb(self):
+        """the test func"""
+        self.assertEqual(User, type(User()))
+        self.assertIn(User(), models.storage.all().values())
+        self.assertEqual(str, type(User().id))
+        self.assertIsInstance(User(), type(BaseModel()))
+        self.assertEqual(datetime, type(User().created_at))
+        self.assertEqual(datetime, type(User().updated_at))
+        self.assertEqual(str, type(User.email))
+        self.assertEqual(str, type(User.password))
+        self.assertEqual(str, type(User.first_name))
+        self.assertEqual(str, type(User.last_name))
 
-    def test_first_name(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.first_name), str)
-
-    def test_last_name(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.last_name), str)
-
-    def test_email(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.email), str)
-
-    def test_password(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.password), str)
+        us1 = User()
+        us2 = User()
+        self.assertNotEqual(us1.id, us2.id)

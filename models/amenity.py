@@ -1,7 +1,8 @@
 #!/usr/bin/python3
-""" State Module for HBNB project """
+"""module file"""
 from models.base_model import BaseModel
 
 
 class Amenity(BaseModel):
+    """User calss"""
     name = ""

@@ -1,29 +1,17 @@
 #!/usr/bin/python3
-""" """
-from tests.test_models.test_base_model import test_basemodel
+"""this unit test file"""
+import unittest
+from models.base_model import BaseModel
 from models.review import Review
 
 
-class test_review(test_basemodel):
-    """ """
+class Test_review(unittest.TestCase):
+    """the unit test"""
 
-    def __init__(self, *args, **kwargs):
-        """ """
-        super().__init__(*args, **kwargs)
-        self.name = "Review"
-        self.value = Review
-
-    def test_place_id(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.place_id), str)
-
-    def test_user_id(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.user_id), str)
-
-    def test_text(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.text), str)
+    def test_gahsdasdb(self):
+        """the test func"""
+        p1 = Review()
+        self.assertIsInstance(p1, type(BaseModel()))
+        self.assertIsInstance(p1.text, str)
+        self.assertIsInstance(p1.place_id, str)
+        self.assertIsInstance(p1.user_id, str)

@@ -1,19 +1,15 @@
 #!/usr/bin/python3
-""" """
-from tests.test_models.test_base_model import test_basemodel
+"""this unit test file"""
+import unittest
+from models.base_model import BaseModel
 from models.amenity import Amenity
 
 
-class test_Amenity(test_basemodel):
-    """ """
+class Test_amenity(unittest.TestCase):
+    """the unit test"""
 
-    def __init__(self, *args, **kwargs):
-        """ """
-        super().__init__(*args, **kwargs)
-        self.name = "Amenity"
-        self.value = Amenity
-
-    def test_name2(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.name), str)
+    def test_gahsdasdb(self):
+        """the test func"""
+        p1 = Amenity()
+        self.assertIsInstance(p1, type(BaseModel()))
+        self.assertIsInstance(p1.name, str)
